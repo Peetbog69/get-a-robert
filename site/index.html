@@ -7,8 +7,7 @@
 <meta name="description" content="Just a person on the other end.">
 <meta property="og:title" content="Ampersand">
 <meta property="og:description" content="Just a person on the other end.">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#141414">
+<meta name="theme-color" content="#0d0d0d">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -20,42 +19,94 @@
     --muted: #666;
   }
 
+  /* ── UNCANNY BACKGROUND ── */
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
-    background: #0d0d0d;
     color: var(--cream);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 40px 20px 60px;
+    background: #0d0d0d;
+    position: relative;
+    overflow-x: hidden;
   }
 
-  /* ── PHONE ── */
+  /* Ambient orbs */
+  .bg-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+    animation: orbDrift 20s infinite ease-in-out;
+  }
+  .bg-orb.malibu {
+    width: 500px; height: 500px;
+    background: var(--malibu);
+    top: -150px; left: -100px;
+    animation-delay: 0s;
+  }
+  .bg-orb.amber {
+    width: 400px; height: 400px;
+    background: var(--amber);
+    bottom: -100px; right: -120px;
+    animation-delay: -10s;
+  }
+  .bg-orb.deep {
+    width: 600px; height: 600px;
+    background: #1a1a40;
+    top: 40%; left: 30%;
+    animation-delay: -5s;
+  }
+  @keyframes orbDrift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(40px, -30px) scale(1.08); }
+    50% { transform: translate(-20px, 20px) scale(0.94); }
+    75% { transform: translate(-30px, -10px) scale(1.04); }
+  }
+
+  /* Subtle noise overlay */
+  .noise {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* ── PHONE (GLASS) ── */
   .phone {
     width: 390px;
     max-width: 100%;
-    background: var(--black);
+    background: rgba(20, 20, 20, 0.75);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-radius: 32px;
     overflow: hidden;
-    box-shadow: 0 0 0 1px #1a1a1a, 0 20px 60px rgba(0,0,0,0.5);
+    border: 1px solid rgba(142, 209, 252, 0.10);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(20,20,20,0.3);
     display: flex;
     flex-direction: column;
-    margin-bottom: 40px;
+    margin-bottom: 48px;
+    position: relative;
+    z-index: 2;
   }
 
   .phone-header {
     padding: 18px 22px 14px;
-    border-bottom: 1px solid #1a1a1a;
+    border-bottom: 1px solid rgba(142, 209, 252, 0.08);
     display: flex;
     align-items: center;
     gap: 12px;
-    background: var(--black);
+    background: rgba(20, 20, 20, 0.4);
   }
   .avatar {
     width: 40px; height: 40px;
-    background: var(--amber);
+    background: var(--malibu);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -75,15 +126,20 @@
     color: var(--cream);
   }
   .header-status {
-    font-size: 11px; color: var(--amber);
+    font-size: 11px; color: var(--malibu);
     font-weight: 500;
     display: flex; align-items: center; gap: 5px;
   }
   .status-dot {
     width: 6px; height: 6px;
-    background: var(--amber);
+    background: var(--malibu);
     border-radius: 50%;
     display: inline-block;
+    animation: pulse 3s infinite ease-in-out;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
   }
 
   /* ── CHAT ── */
@@ -93,7 +149,6 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
-    background: var(--black);
     min-height: 480px;
   }
   .msg {
@@ -120,20 +175,21 @@
 
   .msg.them {
     align-self: flex-start;
-    background: var(--ash);
+    background: rgba(30, 30, 30, 0.7);
+    backdrop-filter: blur(8px);
     color: #d4d0c5;
     border-bottom-left-radius: 6px;
   }
   .msg.you {
     align-self: flex-end;
-    background: #2a2a2a;
+    background: rgba(40, 40, 40, 0.6);
     color: #b0b0b0;
     border-bottom-right-radius: 6px;
   }
-  .msg.amber-bubble {
-    background: var(--amber);
-    color: var(--black);
-    font-weight: 500;
+  .msg.amber-accent {
+    background: rgba(212, 161, 35, 0.15);
+    border: 1px solid rgba(212, 161, 35, 0.3);
+    color: var(--amber);
   }
 
   /* ── MARK HERO ── */
@@ -147,9 +203,10 @@
     font-family: "Georgia", "Times New Roman", serif;
     font-style: italic;
     font-size: 64px;
-    color: var(--amber);
+    color: var(--malibu);
     line-height: 1;
     display: block;
+    text-shadow: 0 0 40px rgba(142, 209, 252, 0.3);
   }
   .amp-wordmark {
     font-size: 10px;
@@ -169,7 +226,7 @@
   }
   .typing span {
     width: 6px; height: 6px;
-    background: var(--amber);
+    background: var(--malibu);
     border-radius: 50%;
     animation: bounce 1.4s infinite ease-in-out;
   }
@@ -183,14 +240,14 @@
   /* ── INPUT ── */
   .input-bar {
     padding: 10px 22px 24px;
-    border-top: 1px solid #1a1a1a;
+    border-top: 1px solid rgba(142, 209, 252, 0.08);
     display: flex; gap: 10px; align-items: center;
-    background: var(--black);
+    background: rgba(20, 20, 20, 0.4);
   }
   .input-field {
     flex: 1;
-    background: var(--ash);
-    border: 1px solid #2a2a2a;
+    background: rgba(30, 30, 30, 0.5);
+    border: 1px solid rgba(142, 209, 252, 0.12);
     border-radius: 24px;
     padding: 10px 16px;
     color: var(--muted);
@@ -200,7 +257,7 @@
   }
   .send-btn {
     width: 36px; height: 36px;
-    background: var(--amber);
+    background: var(--malibu);
     border-radius: 50%;
     border: none;
     color: var(--black);
@@ -210,6 +267,7 @@
     align-items: center;
     justify-content: center;
     font-weight: 600;
+    box-shadow: 0 0 20px rgba(142, 209, 252, 0.25);
   }
 
   /* ── BELOW PHONE ── */
@@ -220,6 +278,8 @@
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    position: relative;
+    z-index: 2;
   }
   .below-line {
     font-size: 17px;
@@ -237,17 +297,19 @@
     align-items: center;
     gap: 8px;
     padding: 12px 28px;
-    background: var(--amber);
+    background: var(--malibu);
     color: var(--black);
     border-radius: 28px;
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, box-shadow 0.2s;
     letter-spacing: 0.3px;
+    box-shadow: 0 0 30px rgba(142, 209, 252, 0.2);
   }
   .cta:hover {
     opacity: 0.88;
+    box-shadow: 0 0 45px rgba(142, 209, 252, 0.3);
   }
   .cta-sub {
     font-size: 11px;
@@ -257,26 +319,37 @@
 
   /* ── FOOTER ── */
   .footer {
-    margin-top: 60px;
+    margin-top: 80px;
     text-align: center;
+    position: relative;
+    z-index: 2;
   }
   .footer-amp {
     font-family: "Georgia", "Times New Roman", serif;
     font-style: italic;
     font-size: 20px;
-    color: var(--amber);
-    opacity: 0.5;
+    color: var(--malibu);
+    opacity: 0.3;
   }
 
   /* ── MOBILE ── */
   @media (max-width: 440px) {
     body { padding: 20px 12px 40px; }
     .phone { border-radius: 24px; }
+    .bg-orb.malibu { width: 300px; height: 300px; top: -80px; left: -60px; }
+    .bg-orb.amber { width: 250px; height: 250px; bottom: -60px; right: -80px; }
   }
 </style>
 </head>
 <body>
 
+<!-- UNCANNY BACKGROUND -->
+<div class="bg-orb malibu"></div>
+<div class="bg-orb amber"></div>
+<div class="bg-orb deep"></div>
+<div class="noise"></div>
+
+<!-- PHONE -->
 <div class="phone">
   <div class="phone-header">
     <div class="avatar">&amp;</div>
@@ -296,8 +369,8 @@
     <div class="msg them">just a person on the other end. no pitch. no pricing. no onboarding.</div>
     <div class="msg them">send me a photo, ask me anything, tell me about your day — or don't. i'm here either way.</div>
     <div class="msg you">what do you think of this shirt</div>
-    <div class="msg them amber-bubble">the navy works. the fit is honest — not trying to impress anyone, just solid. keep it.</div>
-    <div class="msg you">thanks &</div>
+    <div class="msg them">the navy works. the fit is honest — not trying to impress anyone, just solid. keep it.</div>
+    <div class="msg you amber-accent">thanks &</div>
 
     <div class="typing">
       <span></span><span></span><span></span>
@@ -310,6 +383,7 @@
   </div>
 </div>
 
+<!-- BELOW FOLD -->
 <div class="below">
   <div class="below-line">Talk to them.</div>
   <div class="below-sub">Telegram · Discord · wherever you already are.</div>
