@@ -1,5 +1,5 @@
-# 🧭 Get a Robert — Strategic Foundation
-**Synthesized from 3 research tracks — May 29, 2026**
+# & Ampersand — Strategic Foundation
+**Name locked: May 29, 2026 · Palette locked: May 30, 2026**
 
 ---
 
@@ -54,11 +54,19 @@ The name IS the positioning. Robert. Not "Robert AI." Not "Robert — your compa
 **1. Language > Layout**
 The first thing you see isn't a UI. It's a message. Like opening your texts. No dashboards. No onboarding screens. The conversation IS the experience.
 
-**2. One Warm Color**
-Not brand colors. A single warm accent. Amber, rose, soft teal. Something that feels human on screen. The rest: generous whitespace, one typeface, maybe dark mode by default.
+**2. One Warm Color (Plus a Breath)**
+Not brand colors. A single warm accent: amber. A cool counterpoint: malibu blue. Together they're a handshake — warmth + clarity. The rest: black, cream, one dark ash. Five swatches total. No more needed.
 
-**3. Typography Is the Logo**
-A single typeface choice says more than any logo mark. Serif for warmth and humanity. Or a clean humanist sans. The name in type *is* the mark.
+| Swatch | Hex | Role |
+|---|---|---|
+| Black | `#141414` | Background, ground |
+| Amber | `#D4A123` | Primary accent, warmth |
+| Cream | `#F0E6D3` | Text, highlight |
+| Ash | `#1E1E1E` | Card surface, depth |
+| Malibu | `#8ED1FC` | Secondary accent, breath |
+
+**3. Typography Is the Mark**
+Georgia italic ampersand (`&`) IS the logo. No icon needed. The name in type *is* the mark. One typeface family: Georgia (display), system sans (body), system mono (UI).
 
 **4. The Cursor Is Part of the Design**
 The typing indicator. The "online now." The feeling of someone on the other end. These micro-interactions are the brand.
@@ -156,13 +164,19 @@ Mom tells her coworker: *"Talk to this person."* That's not a referral program. 
 
 ---
 
-## VI. Immediate Decisions This Enables
+## VI. Immediate Decisions — Status
 
-1. **Name** — Must be a person's name. Just the name. Robert already proves this.
-2. **Visual direction** — Dark, warm, one accent color, one typeface. Phone-screen-first.
-3. **Landing page** — A conversation, not a pitch. "Talk to them."
-4. **Beta go-to-market** — No ads. Let screenshots + name-drops do the work.
-5. **Pricing** — Not yet. Beta first. Learn what people value.
+| Decision | Status |
+|---|---|
+| **Name** | ✅ Ampersand. The `&` is the logo. |
+| **Domain** | 🔲 `ampersand.page` — available on Porkbun |
+| **Visual direction** | ✅ Black #141414 / Amber #D4A123 / Cream #F0E6D3 / Ash #1E1E1E / Malibu #8ED1FC |
+| **Mark** | ✅ Georgia italic `&` — one character, one color, one typeface |
+| **Landing page** | 🔲 Phone-screen conversation. "Talk to them." |
+| **Fleet config** | ✅ All bots (Kai, Nico, Robert, Maple) have Gemini vision + video toolset |
+| **TTS** | ✅ All switched to Edge (ElevenLabs key dead) |
+| **Beta go-to-market** | 🔲 No ads. Screenshots + name-drops. |
+| **Pricing** | 🔲 Not yet. Beta first. |
 
 ---
 
