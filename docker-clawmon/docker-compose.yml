@@ -1,0 +1,25 @@
+services:
+  clawmon:
+    image: node:22-slim
+    container_name: clawmon
+    restart: unless-stopped
+    ports:
+      - "18789:18789"
+      - "18800:18800"
+    volumes:
+      - clawmon_data:/home/gravy/.openclaw
+      - clawmon_creds:/home/gravy/.credentials
+      - /home/gravy/projects:/home/gravy/projects
+      - /home/gravy/.npm-global:/home/gravy/.npm-global
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - HOME=/home/gravy
+      - USER=gravy
+    working_dir: /home/gravy/.openclaw
+    user: "1000:1000"
+    command: >
+      node /home/gravy/.npm-global/lib/node_modules/openclaw/dist/index.js gateway --port 18789
+
+volumes:
+  clawmon_data:
+  clawmon_creds:

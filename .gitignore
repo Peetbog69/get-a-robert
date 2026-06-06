@@ -1,0 +1,22 @@
+# Secrets / configs with tokens
+.env
+*.env
+**/.env
+**/auth.json
+**/auth.lock
+**/credentials*
+**/secrets*
+*token*
+*TOKEN*
+
+# Build artifacts
+node_modules/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+*.log
+
+# Local overrides
+cloud-assembly.sh

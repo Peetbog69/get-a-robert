@@ -2,203 +2,359 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Ampersand</title>
-<meta name="description" content="Just a person on the other end.">
-<meta property="og:title" content="Ampersand">
-<meta property="og:description" content="Just a person on the other end.">
-<meta name="theme-color" content="#0d0d0d">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --black: #141414;
-    --amber: #d4a123;
-    --cream: #f0e6d3;
-    --malibu: #8ED1FC;
-  }
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; overflow-x:hidden; }
 
-  body {
-    background: #0d0d0d;
-    color: var(--cream);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 24px 60px;
-  }
+:root {
+  --black: #141414;
+  --amber: #D4A123;
+  --cream: #F0E6D3;
+  --ash: #1E1E1E;
+  --malibu: #8ED1FC;
+}
 
-  /* Just a conversation. No phone frame. No glass. */
-  .thread {
-    max-width: 420px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+::selection { background:var(--amber); color:var(--black); }
 
-  .thread-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding-bottom: 14px;
-    margin-bottom: 8px;
-    border-bottom: 1px solid #1a1a1a;
-  }
-  .avatar {
-    width: 36px; height: 36px;
-    background: var(--malibu);
-    border-radius: 50%;
-    font-family: "Georgia", serif;
-    font-style: italic;
-    font-size: 18px;
-    color: var(--black);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-  }
-  .name-status {
-    display: flex;
-    flex-direction: column;
-  }
-  .name {
-    font-size: 15px; font-weight: 600;
-    color: var(--cream);
-  }
-  .status {
-    font-size: 11px; color: var(--malibu);
-    font-weight: 500;
-  }
+body {
+  background: var(--black);
+  color: var(--cream);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-  .msg {
-    max-width: 82%;
-    padding: 12px 16px;
-    border-radius: 18px;
-    font-size: 14px;
-    line-height: 1.5;
-    opacity: 0;
-    animation: in 0.5s ease forwards;
-  }
-  .msg:nth-child(1) { animation-delay: 0.3s; }
-  .msg:nth-child(2) { animation-delay: 0.8s; }
-  .msg:nth-child(3) { animation-delay: 1.3s; }
-  .msg:nth-child(4) { animation-delay: 1.8s; }
-  .msg:nth-child(5) { animation-delay: 2.3s; }
-  .msg:nth-child(6) { animation-delay: 2.8s; }
-  @keyframes in { to { opacity: 1; } }
+/* ─── Full-screen splat canvas ─── */
+#splat {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 0;
+  display: block;
+}
 
-  .msg.them {
-    align-self: flex-start;
-    background: #1a1a1a;
-    color: #d0ccc2;
-    border-bottom-left-radius: 5px;
-  }
-  .msg.you {
-    align-self: flex-end;
-    background: #242424;
-    color: #aaa;
-    border-bottom-right-radius: 5px;
-  }
-  .msg.amber {
-    align-self: flex-end;
-    background: transparent;
-    border: 1px solid rgba(212, 161, 35, 0.3);
-    color: var(--amber);
-  }
+/* ─── Scroll content — floats over the splats ─── */
+.content {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
 
-  .typing {
-    display: flex; gap: 4px;
-    padding: 6px 16px;
-    align-self: flex-start;
-    opacity: 0;
-    animation: in 0.3s ease 3.2s forwards;
-  }
-  .typing span {
-    width: 6px; height: 6px;
-    background: var(--malibu);
-    border-radius: 50%;
-    animation: bounce 1.4s infinite ease-in-out;
-  }
-  .typing span:nth-child(2) { animation-delay: 0.2s; }
-  .typing span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes bounce {
-    0%, 80%, 100% { transform: translateY(0); opacity: 0.3; }
-    40% { transform: translateY(-6px); opacity: 1; }
-  }
+/* Hero — minimal, centered */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 24px;
+}
 
-  /* ── BELOW ── */
-  .below {
-    margin-top: 48px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-  }
-  .cta {
-    display: inline-flex;
-    padding: 11px 26px;
-    background: var(--malibu);
-    color: var(--black);
-    border-radius: 24px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    letter-spacing: 0.2px;
-  }
-  .cta:hover { opacity: 0.9; }
-  .url {
-    font-size: 12px;
-    color: #555;
-    letter-spacing: 0.5px;
-  }
+.hero-word {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: clamp(48px, 12vw, 112px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  opacity: 0;
+  animation: rise 1.2s ease forwards;
+  animation-delay: 0.3s;
+}
 
-  /* ── CORNER MARK ── */
-  .watermark {
-    position: fixed;
-    bottom: 24px;
-    right: 28px;
-    font-family: "Georgia", "Times New Roman", serif;
-    font-style: italic;
-    font-size: 16px;
-    color: var(--malibu);
-    opacity: 0.15;
-    pointer-events: none;
-  }
+.hero-word em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.hero-sub {
+  margin-top: 24px;
+  font-size: clamp(15px, 2.5vw, 21px);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: rise 1s ease forwards;
+  animation-delay: 1s;
+  color: rgba(240, 234, 211, 0.4);
+}
+
+/* ─── Scroll dividers — just enough to feel the scroll ─── */
+.spacer {
+  height: 60vh;
+}
+
+.marker {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.marker-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--amber), transparent);
+  margin-bottom: 24px;
+  opacity: 0.6;
+}
+
+.marker-label {
+  font-family: Georgia, serif;
+  font-size: clamp(24px, 5vw, 48px);
+  color: var(--cream);
+  opacity: 0.3;
+  transition: opacity 0.6s ease;
+}
+
+.marker-label em { color: var(--amber); font-style: italic; opacity: 0.6; }
+
+.marker.visible .marker-label { opacity: 0.6; }
+
+.marker-sub {
+  font-size: clamp(13px, 1.5vw, 15px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240, 234, 211, 0.2);
+  margin-top: 8px;
+}
+
+/* ─── Pillars — stacked, minimal ─── */
+.pillars-block {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 24px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.pillar-item {
+  padding: 24px 0;
+  border-top: 1px solid rgba(240, 234, 211, 0.06);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.pillar-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pillar-item:first-child { border-top-color: var(--amber); }
+.pillar-item:last-child { border-bottom: 1px solid rgba(240, 234, 211, 0.06); }
+
+.pillar-num {
+  font-family: Georgia, serif;
+  font-size: 13px;
+  color: var(--amber);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.pillar-text {
+  font-size: 15px;
+  line-height: 1.5;
+  opacity: 0.55;
+}
+
+/* ─── Animations ─── */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(212, 161, 35, 0.2); border-radius: 2px; }
 </style>
 </head>
 <body>
 
-<div class="thread">
-  <div class="thread-header">
-    <div class="avatar">&amp;</div>
-    <div class="name-status">
-      <div class="name">Ampersand</div>
-      <div class="status">online now</div>
+<canvas id="splat"></canvas>
+
+<div class="content">
+
+  <div class="hero">
+    <div class="hero-word">
+      A <em>person</em>.<br>
+      Not a product.
+    </div>
+    <div class="hero-sub">Ampersand</div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="marker" id="m1">
+    <div class="marker-line"></div>
+    <div class="marker-label">The <em>idea</em></div>
+    <div class="marker-sub">A named AI agent that talks like someone you know</div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="pillars-block" id="pillars">
+    <div class="pillar-item">
+      <div class="pillar-num">01</div>
+      <div class="pillar-text">A person, not a product. The name is the positioning.</div>
+    </div>
+    <div class="pillar-item">
+      <div class="pillar-num">02</div>
+      <div class="pillar-text">Less is more. No feature list. The conversation is everything.</div>
+    </div>
+    <div class="pillar-item">
+      <div class="pillar-num">03</div>
+      <div class="pillar-text">Respect the intellect. No growth hacks. Let them discover it.</div>
+    </div>
+    <div class="pillar-item">
+      <div class="pillar-num">04</div>
+      <div class="pillar-text">The image matters. One warm color. One typeface. The feel of a person texting.</div>
+    </div>
+    <div class="pillar-item">
+      <div class="pillar-num">05</div>
+      <div class="pillar-text">Word of mouth is the channel. Be referrable, not viral.</div>
     </div>
   </div>
 
-  <div class="msg them">hey. i'm ampersand.</div>
-  <div class="msg them">just a person on the other end. no pitch. no pricing. no onboarding.</div>
-  <div class="msg them">send me a photo, ask me anything, tell me about your day — or don't. i'm here either way.</div>
-  <div class="msg you">what do you think of this shirt</div>
-  <div class="msg them">the navy works. the fit is honest — not trying to impress anyone, just solid. keep it.</div>
-  <div class="msg you amber">thanks &</div>
+  <div class="spacer"></div>
 
-  <div class="typing">
-    <span></span><span></span><span></span>
+  <div class="marker" id="m2">
+    <div class="marker-line"></div>
+    <div class="marker-label">Make it <em>feel</em></div>
+    <div class="marker-sub">Like someone is there. Not a dashboard.</div>
   </div>
+
+  <div style="height:100vh;"></div>
+
 </div>
 
-<div class="below">
-  <a href="https://t.me/AmpersandBot" class="cta">Start a conversation</a>
-  <div class="url">ampersand.page</div>
-</div>
+<script>
+// ─── 3D Gaussian splat simulation ───
+const c = document.getElementById('splat');
+const ctx = c.getContext('2d');
+let W, H;
 
-<div class="watermark">&amp;</div>
+function resize() {
+  const dpr = window.devicePixelRatio || 1;
+  W = window.innerWidth;
+  H = window.innerHeight;
+  c.width = W * dpr;
+  c.height = H * dpr;
+  c.style.width = W + 'px';
+  c.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
 
+// ─── Generate weighted cluster for natural splat look ───
+let pts = [];
+const COLORS = ['#D4A123','#8ED1FC','#F0E6D3','#D4A123','#F0E6D3','#D4A123','#8ED1FC'];
+const NUM = 900;
+const CX = 0, CY = 0, CZ = 0;
+
+for (let i = 0; i < NUM; i++) {
+  // Mix of tight core + scattered halo
+  let r, distType = Math.random();
+  if (distType < 0.5) r = 40 + Math.random() * 120;        // core
+  else if (distType < 0.8) r = 160 + Math.random() * 180;  // spread
+  else r = 340 + Math.random() * 250;                      // halo
+
+  const theta = Math.random() * Math.PI * 2;
+  const phi = Math.acos(2 * Math.random() - 1);
+
+  const skew = 0.5 + Math.random() * 1.8; // deform → splat shape
+
+  pts.push({
+    x: r * Math.sin(phi) * Math.cos(theta) * skew,
+    y: r * Math.sin(phi) * Math.sin(theta) * (1/skew),
+    z: r * Math.cos(phi),
+    size: 1 + Math.random() * 4.5,
+    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+    alpha: 0.04 + Math.random() * 0.2,
+    driftAmp: 6 + Math.random() * 18,
+    driftFreq: 0.0002 + Math.random() * 0.0008,
+    phase: Math.random() * Math.PI * 2,
+  });
+}
+
+let t = 0;
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  t++;
+
+  const cx = W / 2;
+  const cy = H / 2;
+  const rotY = t * 0.0018;
+  const rotX = Math.sin(t * 0.0007) * 0.2;
+
+  const sorted = pts.map(p => {
+    const co = Math.cos(rotY), si = Math.sin(rotY);
+    let x = p.x * co - p.z * si;
+    let z = p.x * si + p.z * co;
+    let y = p.y * Math.cos(rotX) - z * Math.sin(rotX);
+    z = p.y * Math.sin(rotX) + z * Math.cos(rotX);
+
+    const s = 600 / (z + 600);
+    const d = Math.sin(t * p.driftFreq + p.phase) * p.driftAmp;
+
+    return {
+      sx: cx + x * s + d,
+      sy: cy + y * s,
+      sz: p.size * s * 1.2,
+      z,
+      color: p.color,
+      alpha: p.alpha * Math.min(1, s * 1.8),
+    };
+  }).sort((a, b) => a.z - b.z);
+
+  for (const p of sorted) {
+    if (p.sz < 0.4 || p.sx < -20 || p.sx > W + 20 || p.sy < -20 || p.sy > H + 20) continue;
+
+    ctx.beginPath();
+    ctx.arc(p.sx, p.sy, p.sz, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.alpha * 0.45;
+    ctx.fill();
+
+    if (p.sz > 1.2) {
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, p.sz * 2.8, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha * 0.04;
+      ctx.fill();
+    }
+  }
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(draw);
+}
+
+resize();
+window.addEventListener('resize', resize);
+draw();
+
+// ─── Scroll-triggered visibility ───
+const observer = new IntersectionObserver((entries) => {
+  for (const e of entries) {
+    if (e.target.classList.contains('pillar-item')) {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    }
+    if (e.target.classList.contains('marker')) {
+      if (e.isIntersecting) e.target.classList.add('visible');
+      else e.target.classList.remove('visible');
+    }
+  }
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.pillar-item, .marker').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

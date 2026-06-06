@@ -1,0 +1,12 @@
+hermes skills install clawhub/voice-cal
+
+hermes skills install clawhub/afrexai-humanizer
+
+
+
+hermes skills install blender-mcp  		
+
+hermes skills install scrapling
+
+
+hermes skills install kanban-video-orchestrator

@@ -1,0 +1,51 @@
+model:
+  provider: openrouter
+  default: nvidia/nemotron-3-ultra-550b-a55b:free
+
+fallback_providers: "[]"
+
+auxiliary:
+  vision:
+    provider: openrouter
+    model: nvidia/nemotron-3-ultra-550b-a55b:free
+  compression:
+    provider: openrouter
+    model: nvidia/nemotron-3-ultra-550b-a55b:free
+  approval:
+    provider: openrouter
+    model: nvidia/nemotron-3-ultra-550b-a55b:free
+  mcp:
+    provider: openrouter
+    model: nvidia/nemotron-3-ultra-550b-a55b:free
+  title_generation:
+    provider: openrouter
+    model: nvidia/nemotron-3-ultra-550b-a55b:free
+
+agent:
+  max_turns: 12
+  api_max_retries: 2
+  reasoning_effort: minimal
+  verbose: false
+  task_completion_guidance: true
+  environment_probe: true
+
+memory:
+  memory_enabled: false
+  user_profile_enabled: false
+  nudge_interval: 0
+  flush_min_turns: 0
+
+curator:
+  enabled: false
+
+tool_loop_guardrails:
+  warnings_enabled: true
+  hard_stop_enabled: true
+  warn_after:
+    exact_failure: 1
+    same_tool_failure: 2
+    idempotent_no_progress: 1
+  hard_stop_after:
+    exact_failure: 2
+    same_tool_failure: 3
+    idempotent_no_progress: 2

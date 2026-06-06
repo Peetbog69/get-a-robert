@@ -1,0 +1,21 @@
+services:
+  nico:
+    build: .
+    image: ampersand-bot:latest
+    container_name: ampersand-nico
+    restart: unless-stopped
+    volumes:
+      - nico_data:/root/.hermes
+    environment:
+      - HERMES_PROFILE=default
+      - HERMES_TELEGRAM_BOT_TOKEN=${NICO_TOKEN}
+      - TELEGRAM_BOT_TOKEN=${NICO_TOKEN}
+      - TELEGRAM_ALLOWED_USERS=8576156161
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - OPENAI_API_KEY=
+      - DEEPSEEK_API_KEY=
+      - ANTHROPIC_API_KEY=
+    mem_limit: 256m
+
+volumes:
+  nico_data:

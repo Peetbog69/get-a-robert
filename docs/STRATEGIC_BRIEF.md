@@ -173,7 +173,7 @@ Mom tells her coworker: *"Talk to this person."* That's not a referral program. 
 | **Visual direction** | ✅ Black #141414 / Amber #D4A123 / Cream #F0E6D3 / Ash #1E1E1E / Malibu #8ED1FC |
 | **Mark** | ✅ Georgia italic `&` — one character, one color, one typeface |
 | **Landing page** | 🔲 Phone-screen conversation. "Talk to them." |
-| **Fleet config** | ✅ All bots (Kai, Nico, Robert, Maple) have Gemini vision + video toolset |
+| **Fleet config** | ✅ Robert on VPS, Astra + OpenClaw on Whitey67 |
 | **TTS** | ✅ All switched to Edge (ElevenLabs key dead) |
 | **Beta go-to-market** | 🔲 No ads. Screenshots + name-drops. |
 | **Pricing** | 🔲 Not yet. Beta first. |

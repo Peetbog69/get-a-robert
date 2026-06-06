@@ -22,7 +22,6 @@
 | **DeepSeek API key** | Shared | Used by both Robert and Clawmon |
 | **ElevenLabs TTS** | $5.00/mo | Starter plan (Tyler's account) |
 | **Tailscale** | $0 | Free tier |
-| **Vultr VPS 2** | $6.00/mo | Offline — may cancel |
 
 ## Future Costs
 
